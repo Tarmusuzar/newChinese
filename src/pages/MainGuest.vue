@@ -3,7 +3,6 @@
         <guest-wrapper @single-product = singleProduct>
         </guest-wrapper>
 
-        <cart-list v-if="cartList"></cart-list>  
     <order-button
     v-if="cartLength"
      class="btn"
@@ -12,7 +11,7 @@
      :items="totalItems"
      :bill="bill"
       ></order-button>
-      <horizontal-menu v-if="scrollY>227"></horizontal-menu>
+      <horizontal-menu v-if="this.$store.state.scrollY>227 && this.$store.state.hideHorizontalMenu &&!this.$store.state.cartList"></horizontal-menu>
     </div>
 
 
@@ -23,14 +22,12 @@
 <script>
 import HorizontalMenu from '@/components/Guest/HorizontalMenu.vue';
 import OrderButton from '@/components/Utils/OrderButton.vue';
-import CartList from '@/components/Guest/CartList.vue';
 import { mapGetters, mapState, mapMutations } from 'vuex';
 import GuestWrapper from './GuestWrapper.vue';
 export default {
     components:{
         OrderButton,
         HorizontalMenu,
-        CartList,
         GuestWrapper,
     },
     data(){
@@ -57,15 +54,13 @@ export default {
             this.$store.state.itemCategory = itemCategory
            
 
-            setTimeout(() => {
-              
-                this.toggleLoadingFalse
-
-            }, 500);
+            
 
         },
         checkout(){
-            this.$store.state.cartList = true
+            this.$router.push('/checkout')
+            // this.$store.state.cartList = true
+            
         }
     },
     computed:{
@@ -94,10 +89,7 @@ export default {
         }
     },
     mounted(){
-        window.addEventListener('scroll',()=>{
-            this.scrollY = window.scrollY
-
-        })
+        this.$store.commit('monitorScrollY', 'MainGuest')
     }}
     
 </script>

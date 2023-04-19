@@ -1,107 +1,187 @@
 <template>
-    <ul class="single" v-for="item in theItem" :key="item"  >
-        <div class="anotherHolder">
-            <li @click="changeHolder" style="position:relative"><toggle-button icon="fa-solid fa-xmark" class="cancel" ></toggle-button></li>
-            <div class="first">
-                <li><img :src="item.image" alt=""></li>
-                <li class="price">{{ item.name }}</li>
-                <li class="price">Dhs {{ item.price }}</li>
-            </div>
+    <loading-spinner v-if="this.$store.state.loading"></loading-spinner>
+    <ul class="productContainer" >
 
-            <li>{{ item.description }}</li>
-            <form action="">
-            
-                <input type="checkbox"> Spicy
-            </form>
+        <hoverable-display @changeHolder="changeHolder"></hoverable-display>
+        <div class="productDescription">
+
+            <div class="productDetails">
+                <li><img :src="item.image" alt=""></li>
+                <li class="mainDetail">{{ item.name }}</li>
+                <li class="mainDetail">Dhs {{ item.price }}</li>
+                <li >{{ item.description }}</li>
+            </div>
+            <p
+                v-if="$store.state.noSauce"
+                style="
+                color: red;
+                width: 90%;
+                margin-left: 3%;
+                padding: .3rem;
+
+            ">You Must Select One Sauce</p>
+            <form>
+                
+                <label for="spicy">Choice of Sauce</label>
+                <div class="sauce" v-for="sauce in sauces" :key="sauce">
+                    <p>{{ sauce.name }}<i :class="{'fas fa-pepper-hot':sauce.level=='medium' || sauce.level =='very'}" id="spiceness"></i><i id="spiceness" class="fas fa-pepper-hot" v-if="sauce.level == 'very'"></i></p> 
+                    <input type="radio" name="spicy" :value="sauce.name" v-model="selectedSauce"  >
+                </div>
+                <label for="spicy">Special Request</label>
+                <textarea name="" id="" cols="30" rows="10" v-model="specialRequest"></textarea>
+                
+            </form>            
         </div>
-        
-            <order-button
-            class="btn"
+        <div class="backDrop"></div><!--create a blurr effect at the bottom of the page-->
+        <order-button
+            class="btn addBtn"
             title="Add 1 to Order"
+            :otherInfo="item.price +' '+'AED'"
             :id="item.price"
             :name="item.name"
-            @click="addToCart({id:item.price,qty:1,name:item.name, image:item.image, price:item.price, totalPrice:item.price})"
-             ></order-button>
-        
-        <!-- <button class="add" >Add 1 to order . Dhs {{ item.price }}</button> -->
-
-        
-    </ul>
+            
+            
+            @click="addToCart(
+                {id:item.price,
+                name:item.name,
+                qty:1, 
+                image:item.image, 
+                price:item.price, 
+                totalPrice:item.price, 
+                customizations:{sauce:selectedSauce,request:specialRequest} ,
+                goHome :function(){
+                    $router.go(-1)
+                }
+                })"
+        ></order-button>
+     </ul>
+    
 </template>
 <style scoped>
-  
-    ul li{
-        list-style-type: none;
-        font-size: 1.4rem;
-    }
-    .single{
-      
-        margin-top: 0;
-        padding: 1rem;
-       display: flex;
-       flex-direction: column;
-       overflow: auto;
+    .productContainer{
+        overflow: scroll;
+      width: 100%;
        color: rgb(29, 28, 28);
     }
-   
-    .cancel{
-        position: absolute;
-        top: 5px;
-        left: 5px;
-        color: green;
-        padding: .3rem .5rem;
-        /* background-color: black; */
-        
-        
-
-
-
+  
+    .productDescription{
+        min-height: 80vh;
+        margin-bottom: 20vh;
+        width: 100%;
     }
-
-    .first{
+    .productDetails{
         display: flex;
-
         flex-direction: column;
-
+        padding: 1rem;
     }
-    
-    .price{
-        font-weight: 800;
-    }
-    .add{
-        width: 90%;
-        margin: 0 auto;
-        color: white;
-        background-color: black;
-        padding: .6rem;
-        font-size: 1.1rem;
-        border-radius: 10px;
-        position: fixed;
-        bottom: 1rem;
-    }
-
-    .single img{
+    .productDetails img{
         width: 100%;
         border-radius: 4px;
         height: auto;
-        max-height: 60vh;
-    
+        max-height: 60vh;   
 
     }
+    .marg1{
+        margin-left: 1rem;
+    }
+    .mainDetail{
+        font-weight: 800;
+    }
+    select{
+        width: 90%;
+        font-size: 1.4rem;
+        margin-left: 5%;
+    }
+    .backDrop{
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        right: 0;
+        left: 0;
+        background-color: rgb(223, 222, 222,.5);
+        height: 3rem;        
+    }
+     
+    ul li{
+        list-style-type: none;
+        font-size: 1.4rem;
+    }  
+    
+    
+   
+    label{
+        justify-self: flex-start;
+        width: 100%;
+        flex-shrink: 0;
+        margin-left: 0;
+        flex-grow: 0;
+        display: block;
+        margin-right: 0;
+        background-color: rgb(244, 241, 241);
+        height: 2rem;
+        padding: 2rem;
+        padding-left: 1rem;
+        margin: .5rem 0;
+        display: flex;
+        align-items: center;
+        
+    }
+    textarea:focus{
+        border: 1px solid gray;
+        outline: none;
+    }
+    textarea{
+        font-size: 1rem;
+        width: 90%;
+        margin-left: 5%;
+        height: 4rem;
+    }
+    .sauce{
+        display: flex;
+        width: 97%;
+        justify-content: space-between;
+        margin-left: 1.5%;
+        margin-right: 1.5%;
+        padding: 1rem;
+        border-bottom: 1px solid rgb(219, 217, 217);
+    }
+    #spiceness{
+        color: red;
+    }
+    
+    
 </style>
 <script>
+import HoverableDisplay from './Utils/HoverableDisplay.vue'
 import OrderButton from './Utils/OrderButton.vue'
-import ToggleButton from './Utils/ToggleButton.vue'
 import { mapActions, mapMutations } from 'vuex'
+import LoadingSpinner from './LoadingSpinner.vue'
     export default{
         data(){
             return{
-                theItem : [],
+                specialRequest:'',
+                selectedSauce:'',
+                item : [],
+                products:[],
+
+                sauces:[
+                    { name: "Black Bean", level: "low" },
+                    { name: "Burnt Chilly", level: "very" },
+                    { name: "Chilly", level: "medium" },
+                    { name: "Hot Garlic", level: "medium" },
+                    { name: "Hot Plate", level: "very" },
+                    { name: "Machurian", level: "low" },
+                    { name: "Schezwan", level: "medium" },
+                    { name: "Sweet & Sour", level: "low" }
+                    ]
+,
+                
             } 
         },
+        
         methods:{
-            ...mapActions(['addToCart']), 
-            ...mapMutations(['toggleLoadingTrue', 'toggleLoadingFalse']),
+            ...mapActions('addToCart',['addToCart']), 
+            ...mapMutations('addToCart',['toggleLoadingTrue', 'toggleLoadingFalse']),
             changeHolder(){
                 this.toggleLoadingTrue()
                 setTimeout(() => {
@@ -110,32 +190,29 @@ import { mapActions, mapMutations } from 'vuex'
                 }, 300);
                 this.$router.go(-1)
 
-            }
-        },
-        computed:{
-            id(){
-                return  this.$route.params.id
-            }
-        },
-        inject:['combos','singleItem','theId','vegStarters','rice','noodles','products'],
-        beforeMount(){
-            if(this.$store.state.itemCategory === 'Combos'){
-                this.theItem.push(this.combos.find(pdt=>pdt.price == this.$store.state.singleProductId))
-            }
-            else if(this.$store.state.itemCategory === 'Rice'){
-                this.theItem.push(this.rice.find(pdt=>pdt.price == this.$store.state.singleProductId))
-
-            }
-            else if(this.$store.state.itemCategory === 'Starters Veg'){
-            this.theItem.push(this.vegStarters.find(pdt=>pdt.price == this.$store.state.singleProductId))
-
-            }
+            },
             
         },
+        beforeMount(){
+            this.$store.state.loading = true
+            fetch('https://my-vue-app-8da88-default-rtdb.firebaseio.com/gypsy/'+ this.$route.query.id+'.json')
+                .then(res=>{
+                    return res.json()
+                })
+                .then(item=>{
+                    this.item = item
+                    this.$store.state.loading = false
+
+                })
+        },
+        
+        
         components:{
-            ToggleButton,
-            OrderButton
-        }
+            LoadingSpinner,
+            OrderButton,
+            HoverableDisplay
+        },
+        
     }
 
 </script>

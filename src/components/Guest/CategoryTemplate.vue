@@ -5,11 +5,11 @@
     
     
         <ul class="menu">
-            <li class="itemWrapper"  v-for="item in category " :key="item"  @click="showSingleProduct(item.price,heading)">
+            <li class="itemWrapper"  v-for="item in category " :key="item"  @click="showSingleProduct(item.id,heading)">
                 <toggle-button :icon="icon"></toggle-button>
                 <img :src="item.image" alt="">
                 <span id="itemDescription">{{ item.name }}</span>
-                <span class="itemPrice">{{ item.price }}</span>
+                <span class="itemPrice"><b>Dhs {{ item.price }}</b></span>
             </li>
         </ul>
       </div>
@@ -29,8 +29,8 @@
         emits:['single-product']
         ,
         methods:{
-            showSingleProduct(id,category){
-                this.$emit('single-product',id,category,this.$refs.heading)
+            showSingleProduct(id){
+                this.$router.push('/item?id='+id)
             }
         },
         components:{
@@ -60,10 +60,14 @@
         }
         .itemWrapper{
             position: relative;
+
             display: flex;
             flex-direction: column;
-            flex-basis: auto;
             margin-top: 1rem;
+            max-width: 50%;
+            justify-content: center;
+            align-items: center;
+            
         }
         #add{
             position: absolute;

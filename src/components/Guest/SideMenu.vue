@@ -7,29 +7,52 @@
     <div class="bigContainer">
         <div class="container">
             <div class="firstWrapper">
-                <div class="theButtons">
-                    <button>Login </button>
-                    <button class="signIn">Sign in</button>
+                <div class="credentials" v-if="this.$store.state.signedIn">
+                    <h1 style="text-align: center;"><i class="fas fa-user"></i></h1>
+                    <b>{{ this.$store.state.credentials.name }}</b>
+                    <b>0{{ this.$store.state.credentials.number }}</b>
+                    <b>{{ this.$store.state.credentials.points }} Points</b>
+
+                </div>
+                <div class="theButtons" v-if="!this.$store.state.signedIn">
+                    <button @click="$emit('sideMenuFunction', 'login')">Login </button>
+                    <button @click="$emit('sideMenuFunction', 'signup')"  class="signIn">Sign up</button>
                 </div>
 
                 <div class="options">
-                    <p>Join The Reward Program</p>
-                    <p>I Have A Complaint</p>
-                    <p>I need A Job</p>
-                    <p>Give A Rating</p>
+                    <p @click="$emit('sideMenuFunction', 'rewards')" v-if="this.$store.state.signedIn">My Orders</p>
+                    <p @click="$emit('sideMenuFunction', 'rewards')" v-if="this.$store.state.signedIn">Delete Account</p>
+                    <p @click="$emit('sideMenuFunction', 'complaint')">   Raise A Complaint</p>
+                    <p @click="$emit('sideMenuFunction', 'careers')">Careers</p>
+                    <p @click="$emit('sideMenuFunction', 'franchise')">Franchising</p>
+                    <p @click="$emit('sideMenuFunction', 'delivery')">Home Delivery</p>
+
+                  
                 </div>
             </div>
        </div>
     
        
-       <div>
-        <p style="text-align: center;">Created by Francis</p>
-       </div>
+       <div class="contact-info">
+          <div>
+            <i class="fas fa-phone-alt"></i>
+            <span>(971) 547800635</span>
+          </div>
+          <div>
+          <i class="fas fa-envelope"></i>
+             <span>gypsydalma@gmail.com</span>
+           </div>
+        </div>
         
    
     </div>
     </div>
 </template>
+<script>
+export default {
+    emits:['sideMenuFunction']
+}
+</script>
 <style scoped>
 
 .backdrop{
@@ -99,4 +122,34 @@
     background-color: rgb(239, 238, 238);
     color: black;
    }
+   button:hover, p:hover{
+    cursor: pointer;
+    
+   }
+   p:hover{
+    text-decoration: underline;
+   }
+   .contact-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+    width: 80%;
+    margin: 0 auto;
+    }
+
+.contact-info i {
+  font-size: 20px;
+  color: #c2185b;
+}
+.credentials{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid rgb(228, 220, 220);
+    width: 90%;
+    padding: 1rem;
+    justify-content: space-evenly;
+    align-items: center;
+    border-radius: 8px;
+}
 </style>

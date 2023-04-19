@@ -46,27 +46,25 @@ export default {
     methods:{
         
         addProduct(){
-               //uploading products that are not deeply nested
-           const uploadMainsAndCombos = (category)=>{
-             if(this.category === category){
-                //check if the category selected on form is the 
-                //same as the perimeter, if so
-                fetch('https://my-vue-app-8da88-default-rtdb.firebaseio.com/products/'+ category +'.json',
-                //go to products file in firebase and create the perimeter folder
+                     
+                fetch('https://my-vue-app-8da88-default-rtdb.firebaseio.com/gypsy.json',
             {   
                 method:'post',
                 headers:{
                    'content-type':'json'
                 },
-                body:JSON.stringify({//push the form inputs to the folder as an object
+                body:JSON.stringify({
                     name:this.name,
                     price:this.price,
                     decription:this.description,
-                    image:this.image
+                    image:this.image,
+                    category:this.category
+                    
 
                     
                 })
-                }).then(data=>{
+                })
+            .then(data=>{
                     if(data.ok){
                         this.$router.go()//if no error, reload the form
                     }
@@ -77,45 +75,14 @@ export default {
             })
             }
 
-           }
-         uploadMainsAndCombos('rice')
-         uploadMainsAndCombos('noodles')
-         uploadMainsAndCombos('combos')
-         
-         //uploading products for deeply nested items
-         const startersAndMains = (category,foodType)=>{
-            if(this.category === category && this.foodType === foodType){
-                fetch('https://my-vue-app-8da88-default-rtdb.firebaseio.com/products/'+category+'_' +foodType+'.json',
-            {   //check if the selected foodtype matches the foodtype perimeter, if so, create that perimeter folder in category  
-                method:'post',
-                headers:{
-                   'content-type':'json'
-                },
-                body:JSON.stringify({
-                    name:this.name,
-                    price:this.price,
-                    decription:this.description,
-                    image:this.image
-
-                    
-                })
-                }).then(data=>{
-                    if(data.ok){
-                        this.$router.go()
-                    }else{
-                        this.$router.push('/error')
-                    }
-            }
-            )
-            }
+           
+            
+            
           
-         }
-        startersAndMains('starters','veg')
-        startersAndMains('starters','chicken')
-        startersAndMains('starters','prawns')
+         
+      
             
-            
-        }
+        
     }
 }
 </script>

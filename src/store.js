@@ -1,8 +1,24 @@
 import { createStore } from 'vuex'
- 
+ import addToCart from './store/addToCart.js'
+ import updatePrices from './store/updatePrices'
+ import auth from './store/auth.js'
 const store = createStore({
+    modules:{
+        addToCart,
+        updatePrices,
+        auth
+        
+    },
     state(){
         return{
+            token:'1',
+            theFullMenu:[],
+            noSauce :false,
+            orderPlaced:false,
+            scrollHoverableDisplay:'',
+            theProductQty:'',
+            hideHorizontalMenu:true,
+            scrollY:'',
             cartCounter:0,
             singleProductId:'that',
             holder:'guest-wrapper',
@@ -14,7 +30,12 @@ const store = createStore({
             bill:'',
             theSelectedHeading:[],
             loading:true,
-            sideMenu:false
+            sideMenu:false,
+            myItem:{},
+            credentials:{},
+            signedIn : false
+
+            
 
             
         }
@@ -24,65 +45,56 @@ const store = createStore({
             return state.cartCounter
         }
     },
+    actions:{
+        login(){
+            
+        }
+    },
     mutations:{
+        signedIn(state,payload){
+            state.signedIn = true,
+            state.credentials = payload
+        },
+        filterOut(state,payload){
+            const theItme = state.theFullMenu.find(item=>item.price == payload)
+            state.myItem = theItme
+        },
+        
+        resetVuex(state){
+            state.cart = []
+            state.cartCounter  = 0
+            state.orderPlaced = false
+        },
+        updateCartCounter(state){
+            let ttl =0
+            state.cart.forEach(item=>{
+                ttl += +item.qty
+            })
+            state.cartCounter = ttl
+        },
+
+        toggleHorizontalMenu(state){
+            state.hideHorizontalMenu = !state.hideHorizontalMenu
+        },
+
+        monitorScrollY(state,payload){
+            window.addEventListener('scroll',()=>{
+               if(payload == 'MainGuest'){
+                state.scrollY = window.scrollY
+               }else{
+                state.scrollHoverableDisplay = window.scrollY
+               }    
+            })
+        },
+
         changeSideMenu(state){
             state.sideMenu = !state.sideMenu
         },
+
         changeHolder(state,holder){
             state.holder = holder
-        },
-        
-        toggleLoadingTrue(state){
-            state.loading = true
-        },
-        toggleLoadingFalse(state){
-            state.loading = false
-        },
-        addToCart(state,product){
-            if(state.cart.length == 0){
-                state.cart.push(product)
-            }
-           else{
-            const itemExists = state.cart.find(item=>item.id == product.id )
-
-            if(itemExists){
-                itemExists.qty++
-                itemExists.totalPrice = itemExists.price * itemExists.qty
-
-               }else{
-                state.cart.push(product)
-    
-               }
-           }
-           
-           state.checkoutBill = []
-           state.cart.forEach(item=>{
-            state.checkoutBill.push(item.totalPrice)
-           })
-
-           var total = 0
-           for(var i=0; i<state.checkoutBill.length;i++){
-                total += +state.checkoutBill[i]
-                state.bill = total
-           }
-           state.cartCounter++
-           setTimeout(() => {
-            state.loading = false
-            state.holder = 'guest-wrapper'
-
-
-           }, 500);
-
-
-        }
-    },
-    actions:{
-        addToCart(context,id){
-            context.commit('toggleLoadingTrue')
-            context.commit('addToCart',id)
         }
     }
-
 })
 
 export default store

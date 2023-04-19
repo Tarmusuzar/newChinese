@@ -10,7 +10,8 @@ export default {
      #add{
             position: absolute;
             color: black;
-            background-color: white;
+            font-weight: 400;
+            background-color: rgb(255, 255, 255, .1);
             border-radius: 50%;
             font-size: 1.8rem;
             top: 8px;

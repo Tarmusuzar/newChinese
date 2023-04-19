@@ -2,7 +2,7 @@
     <div class="subNav">
         <img src="../../assets/portugal.jpg" alt="">
         <div class="icons">
-            <i class="fa-solid fa-magnifying-glass fa" id="fa1"></i>
+           <span @click="$router.push('/search')" ><i class="fa-solid fa-magnifying-glass fa" id="fa1" ></i></span> 
             <i class="fa-light fa-heart fa" id="fa"></i>
         </div>
     </div>

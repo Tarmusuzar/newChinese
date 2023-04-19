@@ -9,7 +9,8 @@
                 <li ><i class="fa-solid fa-cart-shopping"></i></li>
                 <span class="cartCounter">{{this.$store.state.cartCounter  }}</span>
             </ul>
-            <li><button>Sign Up</button></li>
+            <li @click="$router.push('/auth')" v-if="!this.$store.state.signedIn"><b style="font-size: 1rem; font-weight: 100;">Login</b></li>
+            <li @click="toggleSideMenu" v-if="this.$store.state.signedIn"><b style="font-size: 1rem; font-weight: 100;"><i class="fas fa-user"></i></b></li>
             
         </ul>
     </div>
@@ -17,9 +18,11 @@
 
 <script>
 export default {
+
     methods:{
+   
         showCartList(){
-            this.$store.state.cartList = true
+            this.$router.push('/checkout')
         },
         toggleSideMenu(){
             this.$store.commit('changeSideMenu')
