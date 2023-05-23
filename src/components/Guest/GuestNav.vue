@@ -2,7 +2,7 @@
     <div class="guestContainer">
         <ul class="first">
             <li @click="toggleSideMenu"><i class="fa-solid fa-bars"></i></li>
-            <li >Gypsy <span class="label">Chinese</span></li>
+            <li >Francis <span class="label">Chinese</span></li>
         </ul>
         <ul class="last">
             <ul class="theCart" @click="showCartList">
