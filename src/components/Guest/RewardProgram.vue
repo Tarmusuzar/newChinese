@@ -2,32 +2,27 @@
     <div class="reward-program">
       <div class="reward-header">
         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRz2QX0E4DwPrTPeYaBhz7xLkyxXoU4hBOLcw2MrnNmFA&s" alt="Gysy Logo">
-        <h2>Our Rewards Program</h2>
-        <button>Start Earning</button>
+        <h2>Welcome To Gypsy Dalma</h2>
+        
       </div>
       <div class="reward-details">
         <p>
-          Join our rewards program and earn points for every purchase you make at Gypsy Chinese restaurant. 
-          Redeem your points for free food, exclusive deals, and more.
+          This pamphlet is a detail of all the duties and responsibilities of a cashier at Gypsy Chinese Dalma mall.
         </p>
-        <h3>Earning Points</h3>
+        <h3>
+            Opening Procedures
+        </h3>
         <p>
-          For every AED 10 spent, you will earn 1 point. Plus, get bonus points for completing challenges and ordering through our website.
+            This pamphlet details the roles and responsibilities of an opener
         </p>
-        <h3>Redeeming Points</h3>
+        <
         <p>
-          Use your points to get free food, drinks, and more. Simply get over 50 points and click 'redeem' while you're checking out.
+            Open Tvs and make sure the displays are as required.
         </p>
-        <h3>Check Your Balance</h3>
-        <p>
-          Keep track of your points balance and rewards on the website. You can also view your purchase history and reorder your 
-          favorite meals with just a few taps.
+          <p>
+            Go to the remote and click the buttton .... 
         </p>
-        <h3>Join Today</h3>
-        <p>
-          <a href="">Sign Up</a> or <a href="">Sign In</a> to join our rewards program today. It's free and easy to join, and you'll start earning points 
-          with your first purchase.
-        </p>
+       
       </div>
     </div>
   </template>
