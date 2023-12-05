@@ -3,7 +3,7 @@
     <div class="order-management">
       
       <div class="navbar">
-        <h1 class="brand">Gypsy Dalma</h1>
+        <h1 class="brand">Frosty Galleria</h1>
         <div class="options">
           <button class="nav-btn" @click="$router.replace('/admin')">Home</button>
           <button class="nav-btn" :class="{ active: activeTab === 'new-orders' }" @click="fetchNewOrders('new-orders')">New Orders</button>
