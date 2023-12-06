@@ -1,7 +1,7 @@
 <template>
     <div class="app">
       <header>
-        <h1>Gypsy Dalma</h1>
+        <h1>Frosty Galleria</h1>
         <nav>
           <ul>
             <li><router-link to="/orders">Orders</router-link></li>
